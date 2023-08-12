@@ -40,7 +40,8 @@ def create_wordpress_post(title, content):
         data = {
             'title': title,
             'content': content,
-            'status': 'publish'
+            'status': 'publish',
+            'featured_media': '1576'
         }
 
         # Set authentication credentials
@@ -61,18 +62,20 @@ def create_wordpress_post(title, content):
 
 # Main script
 def main():
-    # Prompt for generating the article
-    prompt = "write an article about today's finance news. 200 words."
-
+    # Prompt for generating the article. Taken from this webpage: https://www.learnprompt.org/chat-gpt-prompts-for-blog-posts-writing/
+    prompt = "I want you to act as a blogger and write a blog post about wristwatch, with a friendly and approachable tone that engages readers. Your target audience is individuals who are interested in buying wristwatch or they're just fans. Write in a personal style using singular first-person pronouns only. Please include the keywords 'wristwatch', 'wristwatch for men', and 'wristwatch for women' throughout the article. Format your response using markdown. Use headings, subheadings, bullet points, and bold to organize the information. Be sure the post ends with a full sentence followed by a period. post's minimum length must be 500 words. Maximum 800."
+    prompt_title = "I want you to act as a blogger and write the tile of a blog post about wristwatch, with a friendly and approachable tone that engages readers. Length must be between 5 and 8 words."
+    
     # Generate the article using ChatGPT
     article = generate_article_prompt(prompt)
+    article_title = generate_article_prompt(prompt_title)
 
     if article:
         # Title for the new WordPress post
-        post_title = "Today's Finance News"
+        #post_title = article_title
 
         # Create the WordPress post
-        post_id = create_wordpress_post(post_title, article)
+        post_id = create_wordpress_post(article_title, article)
 
         # Check if the post was created successfully
         if post_id:
