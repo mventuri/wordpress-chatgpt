@@ -5,14 +5,13 @@ from post_titles import blog_post_titles
 from post_images import blog_post_images
 from article_prompts import article_prompts
 
-
 # Set up OpenAI API credentials
-openai.api_key = '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'
+openai.api_key = ''
 
 # Set up WordPress credentials
-wordpress_url = 'https://www.marcoventuritest.it/wooTest'
-wordpress_username = 'HiMark'
-wordpress_password = 'P1N7f9NeqASXNglB827nI7i1'
+wordpress_url = ''
+wordpress_username = ''
+wordpress_password = ''
 
 
 # ChatGPT API call
@@ -69,6 +68,7 @@ def create_wordpress_post(title, content, image):
 # Main script
 def main():
     prompt = random.choice(article_prompts)
+    
     # Generate the article using ChatGPT
     article = generate_article_prompt(prompt)
     
