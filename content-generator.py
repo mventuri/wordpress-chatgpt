@@ -6,12 +6,12 @@ from post_images import blog_post_images
 from article_prompts import article_prompts
 
 # Set up OpenAI API credentials
-openai.api_key = ''
+openai.api_key = OPENAI_API_KEY
 
 # Set up WordPress credentials
-wordpress_url = ''
-wordpress_username = ''
-wordpress_password = ''
+wordpress_url = WORDPRESS_URL
+wordpress_username = WORDPRESS_USERNAME
+wordpress_password = WORDPRESS_PASSWORD
 
 
 # ChatGPT API call
