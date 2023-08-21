@@ -19,8 +19,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip3 install --upgrade pip
-        pip3 install openai requests
+        python -m pip install --upgrade pip
+        pip install openai requests
 
     - name: Run the script
       run: python /content-generator.py  # Update with the actual path
