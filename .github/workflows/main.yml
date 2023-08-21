@@ -1,0 +1,30 @@
+name: Daily Article Posting
+
+on:
+  schedule:
+    - cron: '* * * * *'  # Schedule to run daily at midnight (UTC)
+
+jobs:
+  run-script:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x  # Set your desired Python version
+
+    - name: Install dependencies
+      run: |
+        python -m pip3 install --upgrade pip
+        pip3 install openai requests
+
+    - name: Run the script
+      run: python /content-generator.py  # Update with the actual path
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        WORDPRESS_USERNAME: ${{ secrets.WORDPRESS_USERNAME }}
+        WORDPRESS_PASSWORD: ${{ secrets.WORDPRESS_PASSWORD }}
