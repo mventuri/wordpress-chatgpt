@@ -23,7 +23,7 @@ jobs:
         pip install openai requests
 
     - name: Run the script
-      run: python ../content-generator.py  # Update with the actual path
+      run: python /workspaces/wordpress-chatgpt/content-generator.py  # Update with the actual path
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         WORDPRESS_USERNAME: ${{ secrets.WORDPRESS_USERNAME }}
