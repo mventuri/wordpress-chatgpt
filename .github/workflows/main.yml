@@ -1,4 +1,4 @@
-name: Daily Article Posts
+name: Daily Article Blog Posts 
 
 on:
   schedule:
