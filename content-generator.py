@@ -1,17 +1,18 @@
 import openai
 import requests
 import random
+import os
 from post_titles import blog_post_titles
 from post_images import blog_post_images
 from article_prompts import article_prompts
 
 # Set up OpenAI API credentials
-openai.api_key = OPENAI_API_KEY
+openai.api_key = os.environ["OPENAI_API_KEY"]
 
 # Set up WordPress credentials
-wordpress_url = WORDPRESS_URL
-wordpress_username = WORDPRESS_USERNAME
-wordpress_password = WORDPRESS_PASSWORD
+wordpress_url = os.environ["WORDPRESS_URL"]
+wordpress_username = os.environ["WORDPRESS_USERNAME"]
+wordpress_password = os.environ["WORDPRESS_PASSWORD"]
 
 
 # ChatGPT API call
