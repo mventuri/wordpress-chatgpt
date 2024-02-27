@@ -2,8 +2,6 @@ import openai
 import requests
 import random
 import os
-from post_titles import blog_post_titles
-from post_images import blog_post_images
 from article_prompts import article_prompts
 
 # Set up OpenAI API credentials
@@ -14,40 +12,41 @@ wordpress_url = os.environ["WORDPRESS_URL"]
 wordpress_username = os.environ["WORDPRESS_USERNAME"]
 wordpress_password = os.environ["WORDPRESS_PASSWORD"]
 
-
-# ChatGPT API call
+# Function to generate an article prompt using ChatGPT
 def generate_article_prompt(prompt):
     try:
         response = openai.Completion.create(
-            engine='gpt-3.5-turbo-instruct',
-            prompt=prompt,
-            max_tokens=600,
-            n=1,
-            stop=None,
-            temperature=0.7
+            engine='gpt-3.5-turbo-instruct', # Specifies the GPT model to use
+            prompt=prompt, # The prompt to generate content from
+            max_tokens=1200, # Maximum length of the generated content
+            n=1,# Number of completions to generate
+            stop=None, # Token(s) that signify the end of a completion
+            temperature=0.7 # Creativity of the response; lower values are more deterministic
         )
-        return response.choices[0].text.strip()
+        return response.choices[0].text.strip() # Returns the generated text, stripped of leading/trailing whitespace
     except Exception as e:
         print(f"Error generating article: {str(e)}")
         return None
 
-# Create a new WordPress post
-def create_wordpress_post(title, content, image):
-    try:
-        # WordPress API endpoint for creating new posts
-        endpoint = f"{wordpress_url}/wp-json/wp/v2/posts"
 
-        # Set headers for the request
+# Function to create a new WordPress post
+def create_wordpress_post(content):
+    try:
+
+        content_json = json.loads(content) # Loads the article content into a JSON object
+        
+        endpoint = f"{wordpress_url}/wp-json/wp/v2/posts" # WordPress API endpoint for creating new posts
+
+        
         headers = {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json' # Set headers for the request
         }
 
-        # Set data for the new post
-        data = {
-            'title': title,
-            'content': content,
-            'status': 'publish',
-            'featured_media': image
+        # Payload
+        data = {                              
+            'title': content_json["title"],
+            'content': content_json["content"],
+            'status': 'publish'
         }
 
         # Set authentication credentials
@@ -64,22 +63,22 @@ def create_wordpress_post(title, content, image):
             return None
     except Exception as e:
         print(f"Error creating WordPress post: {str(e)}")
+        print(response.text)
         return None
 
 # Main script
 def main():
     prompt = random.choice(article_prompts)
-    
+
     # Generate the article using ChatGPT
     article = generate_article_prompt(prompt)
-    
-    article_title = random.choice(blog_post_titles)
-    article_image = random.choice(blog_post_images)
 
+    print(article)
+    
     if article:
 
         # Create the WordPress post
-        post_id = create_wordpress_post(article_title, article, article_image)
+        post_id = create_wordpress_post(article)
 
         # Check if the post was created successfully
         if post_id:
@@ -89,5 +88,6 @@ def main():
     else:
         print("Failed to generate the article.")
 
+# Ensures that the main function runs only if the script is executed directly, not when imported
 if __name__ == '__main__':
     main()
