@@ -1,31 +1,34 @@
-name: Daily Article Blog Posts 
+# Name of the GitHub Action
+name: Daily Article Blog Posts
 
+# Triggers for the GitHub Action
 on:
   schedule:
-    - cron: '0 */2 * * *'  
+    - cron: "0 */2 * * *" # This line schedules the action to run every 2 hours
 
+# Defines the jobs to be executed
 jobs:
   run-script:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Specifies the type of virtual host environment (Ubuntu latest version)
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code # First step: checks out the repository code
+        uses: actions/checkout@v3 # Uses GitHub's checkout action to access the repository
 
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.8  
+      - name: Set up Python # Second step: sets up Python environment
+        uses: actions/setup-python@v3 # Uses GitHub's setup-python action
+        with:
+          python-version: 3.8 # Specifies the Python version to use
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install openai requests
+      - name: Install dependencies # Third step: installs necessary dependencies
+        run: |
+          python -m pip install --upgrade pip  # Upgrades pip
+          pip install openai requests  # Installs OpenAI and requests libraries
 
-    - name: Run the script
-      run: python ./content-generator.py  
-      env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        WORDPRESS_USERNAME: ${{ secrets.WORDPRESS_USERNAME }}
-        WORDPRESS_PASSWORD: ${{ secrets.WORDPRESS_PASSWORD }}
-        WORDPRESS_URL: ${{ secrets.WORDPRESS_URL }}
+      - name: Run the script # Fourth step: executes the script
+        run: python ./content-generator.py # Runs the Python script located at "./content-generator.py"
+        env: # Sets environment variables for the script
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} # Retrieves the OpenAI API key from GitHub secrets
+          WORDPRESS_USERNAME: ${{ secrets.WORDPRESS_USERNAME }} # Retrieves the WordPress username from GitHub secrets
+          WORDPRESS_PASSWORD: ${{ secrets.WORDPRESS_PASSWORD }} # Retrieves the WordPress password from GitHub secrets
+          WORDPRESS_URL: ${{ secrets.WORDPRESS_URL }} # Retrieves the WordPress URL from GitHub secrets
